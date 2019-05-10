@@ -36,9 +36,9 @@ using System.Threading.Tasks;
 
 namespace Open.Nat
 {
-	internal sealed class UpnpNatDevice : NatDevice
+	public sealed class UpnpNatDevice : NatDevice
 	{
-		internal readonly UpnpNatDeviceInfo DeviceInfo;
+		public readonly UpnpNatDeviceInfo DeviceInfo;
 		private readonly SoapClient _soapClient;
 
 		internal UpnpNatDevice(UpnpNatDeviceInfo deviceInfo)
