@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net35;net45;net472</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;net471</TargetFrameworks>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <PackageId>Open.Nat</PackageId>
     <Authors>Alan McGovern, Ben Motmans, Lucas Ontivero</Authors>
@@ -21,6 +21,7 @@
     <AssemblyOriginatorKeyFile>Open.Nat.snk</AssemblyOriginatorKeyFile>
     <RepositoryUrl>https://github.com/lontivero/Open.NAT</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
     <Reference Include="System" />
@@ -28,15 +29,12 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'!='net35' and '$(TargetFramework)'!='netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0'">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Upnp\Messages\Responses\AddPortMappingResponseMessage.cs" />
     <Compile Remove="Upnp\Messages\Responses\DeletePortMappingResponseMessage.cs" />
-  </ItemGroup>
-   <ItemGroup>
-    <PackageReference Include="TaskParallelLibrary" Version="1.0.2856.0" Condition="'$(TargetFramework)'=='net35'" />
   </ItemGroup>
 </Project>

@@ -155,20 +155,6 @@ namespace Open.Nat
 			ReleaseMapping(mappings);
 		}
 
-#if NET35
-		internal Task RenewMappings()
-		{
-			Task task = null;
-			var mappings = _openedMapping.Where(x => x.ShoundRenew());
-			foreach (var mapping in mappings.ToArray())
-			{
-				var m = mapping;
-				task = task == null ? RenewMapping(m) : task.ContinueWith(t => RenewMapping(m)).Unwrap();
-			}
-
-			return task;
-		}
-#else
 		internal async Task RenewMappings()
 		{
 			var mappings = _openedMapping.Where(x => x.ShoundRenew());
@@ -178,30 +164,7 @@ namespace Open.Nat
 				await RenewMapping(m);
 			}
 		}
-#endif
 
-#if NET35
-		private Task RenewMapping(Mapping mapping)
-		{
-			var renewMapping = new Mapping(mapping);
-			renewMapping.Expiration = DateTime.UtcNow.AddSeconds(mapping.Lifetime);
-
-			NatDiscoverer.TraceSource.LogInfo("Renewing mapping {0}", renewMapping);
-			return CreatePortMapAsync(renewMapping)
-				.ContinueWith(task =>
-				{
-					if (task.IsFaulted)
-					{
-						NatDiscoverer.TraceSource.LogWarn("Renew {0} failed", mapping);
-					}
-					else
-					{
-						NatDiscoverer.TraceSource.LogInfo("Next renew scheduled at: {0}",
-															renewMapping.Expiration.ToLocalTime().TimeOfDay);
-					}
-				});
-		}
-#else
 		private async Task RenewMapping(Mapping mapping)
 		{
 			var renewMapping = new Mapping(mapping);
@@ -219,6 +182,5 @@ namespace Open.Nat
 				NatDiscoverer.TraceSource.LogWarn("Renew {0} failed", mapping);
 			}
 		}
-#endif
 	}
 }
